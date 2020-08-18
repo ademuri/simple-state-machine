@@ -18,6 +18,8 @@ jobs:
     - install:
       - pip install -U platformio
       - platformio update
-      script: ./ci.sh
-      name: "build Arduno"
+      script: ./build_arduino.sh
+      name: "build arduino"
+    - script: ./test.sh
+      name: "run tests"
 
