@@ -1,0 +1,19 @@
+{
+  "name": "simple-state-machine",
+  "version": "0.1.0",
+  "description": "A simple implementation of a finite state machine",
+  "keywords": "state, machine, fsm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ademuri/simple-state-machine.git"
+  },
+  "authors": [
+    {
+      "name": "Adam Demuri",
+      "email": "adam.demuri@gmail.com"
+    }
+  ],
+  "license": "Apache-2.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}
