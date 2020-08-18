@@ -22,12 +22,12 @@ TEST(SimpleTest, does_not_crash) {
 
   State<Context, Events>* on = new State<Context, Events>("on", {}, [&output](Context* context, bool state_changed) {
     output = true;
-    return 1;
+    return 5;
   });
 
   State<Context, Events>* off = new State<Context, Events>("off", {}, [&output](Context* context, bool state_changed) {
     output = false;
-    return 1;
+    return 5;
   });
 
   on->transitions[Events::kTimer] = off;
@@ -44,6 +44,23 @@ TEST(SimpleTest, does_not_crash) {
     state_manager->Run();
     EXPECT_EQ(output, expected_output) << "iteration: " << i;
     expected_output = !expected_output;
-    millis_ += 2;
+    millis_ += 6;
+  }
+
+  millis_ += 6;
+  state_manager->Run();
+  ASSERT_EQ(output, false);
+  state_manager->HandleEvent(Events::kForceOn);
+  EXPECT_EQ(output, true);
+  millis_ += 6;
+
+  for (int i = 0; i < 100000; i++) {
+    state_manager->Run();
+    EXPECT_EQ(output, false);
+    state_manager->HandleEvent(Events::kForceOn);
+    EXPECT_EQ(output, true);
+    state_manager->Run();
+
+    millis_ += 6;
   }
 }
