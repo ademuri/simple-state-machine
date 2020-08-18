@@ -1,0 +1,23 @@
+# Enable validating this file
+version: ~> 1.0
+
+language: python
+python:
+    - "3.5"
+
+sudo: false
+cache:
+    directories:
+        - "~/.platformio"
+
+env:
+    - PLATFORMIO_CI_SRC=examples/blinky
+
+jobs:
+  include:
+    - install:
+      - pip install -U platformio
+      - platformio update
+      script: ./ci.sh
+      name: "build Arduno"
+
