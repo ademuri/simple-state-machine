@@ -18,7 +18,9 @@ target_include_directories(simple-state-machine PUBLIC
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-fetch-content)
   include(FetchContent)
+  include(fetch-content-shim)
 
   FetchContent_Declare(googletest
     GIT_REPOSITORY      https://github.com/google/googletest.git
