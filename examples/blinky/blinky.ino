@@ -32,6 +32,8 @@ void setup() {
 
   off->transitions[Events::kTimer] = on;
   off->transitions[Events::kButton] = on;
+
+  state_manager = new StateManager<Context, Events, Events::kTimer>(off, new Context());
 }
 
 void loop() {

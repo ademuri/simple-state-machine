@@ -6,6 +6,6 @@ mkdir -p build
 pushd build
 cmake ..
 make
-# TODO: actually run tests
+./tests
 popd
 

@@ -18,7 +18,22 @@ target_include_directories(simple-state-machine PUBLIC
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  # TODO: add tests
+  include(FetchContent)
+
+  FetchContent_Declare(googletest
+    GIT_REPOSITORY      https://github.com/google/googletest.git
+    GIT_TAG             master
+  )
+  FetchContent_MakeAvailable(googletest)
+
+  enable_testing()
+
+  file(GLOB TEST_SOURCES "tests/*.cpp")
+
+  add_executable(tests ${TEST_SOURCES})
+
+  target_link_libraries(tests simple-state-machine gmock_main gtest)
+  add_test(tests tests)
 endif()
 
 

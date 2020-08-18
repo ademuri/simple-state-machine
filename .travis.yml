@@ -20,6 +20,6 @@ jobs:
       - platformio update
       script: ./build_arduino.sh
       name: "build arduino"
-    - script: ./test.sh
+    - script: ./run_tests.sh
       name: "run tests"
 
