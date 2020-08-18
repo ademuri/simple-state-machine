@@ -19,10 +19,11 @@ LIBC_NEEDED_BOARDS="--board uno"
 
 for dir in examples/*; do
   if [ "$BUILD_ALL" == "true" ]; then
-    platformio ci ${BOARDS?} --lib=. "${dir?}"
+    # Note: extra build flags needed for teensy31
+    platformio ci ${BOARDS?} --lib=. --project-option="build_flags=-llibc -lc" "${dir?}"
     #platformio ci ${LIBC_NEEDED_BOARDS?} --project-option="lib_deps=ArduinoSTL" --lib=. "${dir?}"
   else
-    platformio ci --board "${BOARD_TO_BUILD?}" --lib=. "${dir?}"
+    platformio ci --board "${BOARD_TO_BUILD?}" --lib=. --project-option="build_flags=-llibc -lc" "${dir?}"
   fi
 done
 
