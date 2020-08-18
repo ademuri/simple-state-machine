@@ -44,49 +44,20 @@ template <typename Context, typename EventType, EventType TimerEnum>
 void StateManager<Context, EventType, TimerEnum>::HandleEvent(EventType event) {
   auto it = current_state_->transitions.find(event);
   if (it == current_state_->transitions.end()) {
-    // TODO: Invalid type
+    // Undefined transition
+    return;
+  }
 
-#ifdef DEBUG
-#ifdef ARDUINO
-    Serial.printf(
-#else
-    std::printf(
-#endif
-        "Event type not found: %d\n", static_cast<int>(event));
-#endif
+  bool state_changed = it->second != State<Context, EventType>::NO_CHANGE;
+  if (state_changed) {
+    current_state_ = it->second;
+  }
 
+  uint32_t new_timer_value = current_state_->on_enter(context_, state_changed);
+  if (new_timer_value > 0) {
+    timer_ = millis() + new_timer_value;
   } else {
-    bool state_changed = it->second != State<Context, EventType>::NO_CHANGE;
-    if (state_changed) {
-      current_state_ = it->second;
-
-#ifdef DEBUG
-#ifdef ARDUINO
-    Serial.printf(
-#else
-    std::printf(
-#endif
-      "Entering state: %s\n", current_state_->name);
-#endif
-
-    } else {
-#ifdef DEBUG
-#ifdef ARDUINO
-    Serial.printf(
-#else
-    std::printf(
-#endif
-      "Resetting timer for state: %s\n", current_state_->name);
-#endif
-
-    }
-
-    uint32_t new_timer_value = current_state_->on_enter(context_, state_changed);
-    if (new_timer_value > 0) {
-      timer_ = millis() + new_timer_value;
-    } else {
-      timer_ = 0;
-    }
+    timer_ = 0;
   }
 }
 
